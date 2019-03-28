@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import './NavBar.css'
+import { NavBarLinks } from './NavBarLinks';
+
 
 class NavBar extends React.Component {
     constructor(props) {
@@ -31,14 +32,7 @@ class NavBar extends React.Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            <li className="nav-item active">
-                                <Link className="nav-link" to="/"><div className="">Home</div><span className="sr-only">(current)</span></Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/Login"><div className="gradientText">Loggin</div></Link>
-                            </li>
-                        </ul>
+                        <NavBarLinks></NavBarLinks>
                         <button type="button" className="gradientTex">Secondary</button>
                     </div>
                 </nav>
