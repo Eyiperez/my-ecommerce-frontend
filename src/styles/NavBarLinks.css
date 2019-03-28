@@ -1,3 +1,7 @@
+.cart {
+   border:none;
+}
+
 .gradientText {
     position: relative;
     color: transparent;
@@ -9,3 +13,7 @@
  .gradientText:hover {
     background-position: 0 0;
  }
+
+.my-nav {
+  color: white;
+}

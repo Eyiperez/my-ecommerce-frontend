@@ -10,19 +10,17 @@ const NavBarLinks = (props) => {
 
     return <>
         {links.map((link, index) => {
-            let active = 'nav-item';
+            let active = 'nav-item nav-link';
             let hover = 'gradientText';
             let to = '/Login';
             if (page === link) {
-                active = 'nav-item active';
+                active = 'nav-item nav-link active';
                 hover = '';
                 to = '/';
             }
-            return <ul className="navbar-nav">
-                <li className={active} key={index}>
-                    <Link className="nav-link" to={to}><div className={hover}>{link}</div><span className="sr-only">(current)</span></Link>
-                </li>
-            </ul>
+            return<Link className={active} to={to} key={index}><div className={hover}>{link}</div><span className="sr-only">(current)</span></Link>
+               
+       
         })}
     </>
 

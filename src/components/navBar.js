@@ -1,6 +1,9 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { NavBarLinks } from './NavBarLinks';
+import '../styles/NavBarLinks.css';
+import CartModal from './CartModal';
+import SearchBar from './SearchBar';
 
 
 class NavBar extends React.Component {
@@ -8,33 +11,21 @@ class NavBar extends React.Component {
         super(props)
         this.state = {
             query: '',
+            cart: [],
+            searchCat: 'name',
         }
-    }
-
-    handleSearch = (e) => {
-        e.preventDefault();
-        this.props.history.push(`/results/${this.state.query}`);
-
-    }
-
-    setQuery = (e) => {
-        this.setState({
-            query: e.target.value
-        })
     }
 
     render() {
         return (
             <>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <Link className="navbar-brand" to="/">Navbar</Link>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
+                <nav className="my-nav navbar navbar-expand-lg navbar-light">
+                    <form className="navbar-nav">
+                        <Link className="navbar-brand" to="/">Navbar</Link>
                         <NavBarLinks></NavBarLinks>
-                        <button type="button" className="gradientTex">Secondary</button>
-                    </div>
+                    </form>
+                    <SearchBar />
+                    <CartModal></CartModal>
                 </nav>
 
 
