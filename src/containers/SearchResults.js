@@ -6,8 +6,7 @@ class SearchResults extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            videoData:[],
-            loadVideo:false
+
         }
     }
 
@@ -29,12 +28,14 @@ class SearchResults extends React.Component {
     componentDidMount = () => {
         // this.requestSearch(this.props.match.params.query)
         console.log(this.props.match.params.query)
+        console.log(this.props.match.params.cat)
     
     }
 
     componentWillReceiveProps(props) {
         // this.requestSearch(props.match.params.query)
         console.log(props.match.params.query)
+        console.log(props.match.params.cat)
     }
 
     // renderList = () => {

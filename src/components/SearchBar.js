@@ -39,7 +39,8 @@ class SearchBar extends React.Component {
 
     handleSearch = (e) => {
         e.preventDefault();
-        this.props.history.push(`/SearchResults/${this.state.query}`);
+        console.log(e.target.value)
+        this.props.history.push(`/SearchResults/${this.state.query}/${e.target.value}`);
         this.setState({
             query: ''
         })
@@ -67,13 +68,13 @@ class SearchBar extends React.Component {
             </DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem header>Search by</DropdownItem>
-                        <DropdownItem onClick={this.handleSearch}>Name</DropdownItem>
+                        <DropdownItem onClick={this.handleSearch} value='name'>Name</DropdownItem>
                             <DropdownItem divider />
-                            <DropdownItem onClick={this.handleSearch}>Color</DropdownItem>
+                            <DropdownItem onClick={this.handleSearch} value='color'>Color</DropdownItem>
                             <DropdownItem divider />
-                            <DropdownItem onClick={this.handleSearch}>Description</DropdownItem>
+                            <DropdownItem onClick={this.handleSearch} value='description'>Description</DropdownItem>
                             <DropdownItem divider />
-                            <DropdownItem onClick={this.handleSearch}>Category</DropdownItem>
+                            <DropdownItem onClick={this.handleSearch} value='Category'>Category</DropdownItem>
                         </DropdownMenu>
                     </InputGroupButtonDropdown>
                 </InputGroup>
