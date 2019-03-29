@@ -1,26 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import '../styles/NavBarLinks.css'
 
 const NavBarLinks = (props) => {
-    //const data = props.data;
-    const page = 'Home';
-    const links = ['Home', 'Login'];
+    console.log(props)
+    const page = props.page.page;
+    console.log(page)
+    const links = ['Home', 'Login', 'Register'];
 
 
     return <>
         {links.map((link, index) => {
             let active = 'nav-item nav-link';
             let hover = 'gradientText';
-            let to = '/Login';
+            let to = `/${link}`;
+            if (link === 'Home'){
+                to = `/`;
+            }
             if (page === link) {
                 active = 'nav-item nav-link active';
                 hover = '';
-                to = '/';
             }
-            return<Link className={active} to={to} key={index}><div className={hover}>{link}</div><span className="sr-only">(current)</span></Link>
-               
-       
+            return<a className={active} value={link} href={to} key={index}><div className={hover} onClick= {e => { props.onClick({event:e, page:link})}}>{link}</div></a>
+                      
         })}
     </>
 

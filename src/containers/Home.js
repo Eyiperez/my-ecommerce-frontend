@@ -9,6 +9,20 @@ class Home extends React.Component {
             page: 'home',
         }
     }
+    componentDidMount = () => {
+        console.log(this.props.location.pathname)
+        const currentPage = this.props.location.pathname
+        if (currentPage === '/Login') {
+            this.setState = ({ page: 'Login' })
+        }
+        if (currentPage === '/') {
+            this.setState = ({ page: 'Home' })
+        }
+        if (currentPage === '/Register') {
+            this.setState = ({ page: 'Register' })
+        }
+
+    }
 
     render() {
         return (

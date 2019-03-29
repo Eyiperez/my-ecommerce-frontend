@@ -1,12 +1,37 @@
-import React from 'react'
-import {withRouter} from 'react-router-dom'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { Container, Row, Col } from 'reactstrap';
 //import axios from 'axios'
 
 class SearchResults extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-
+            products: [{
+                "id": 2,
+                "shop_id": 1,
+                "name": "Small balloon",
+                "price": 1,
+                "image": "https://source.unsplash.com/random/80x80",
+                "description": "yellow, air",
+                "category": "birthday",
+                "color": "yellow",
+                "likes": null,
+                "shop_name": "Balloon Shop"
+            },{
+                "id": 1,
+                "shop_id": 1,
+                "name": "Big balloon",
+                "price": 3,
+                "image": "https://source.unsplash.com/random/80x80",
+                "description": "giant balloon, pink, helium",
+                "category": "babyshower",
+                "color": "pink",
+                "likes": null,
+                "shop_name": "Balloon Shop"
+            }],
+            search:'',
+            searchBY:''
         }
     }
 
@@ -26,16 +51,18 @@ class SearchResults extends React.Component {
     //     )
     // }
     componentDidMount = () => {
-        // this.requestSearch(this.props.match.params.query)
         console.log(this.props.match.params.query)
         console.log(this.props.match.params.cat)
-    
+        this.setState({ search: this.props.match.params.query})
+        this.setState({ searchBy: this.props.match.params.cat})
     }
 
-    componentWillReceiveProps(props) {
+    componentWillMount(props) {
         // this.requestSearch(props.match.params.query)
-        console.log(props.match.params.query)
-        console.log(props.match.params.cat)
+        console.log(this.props.match.params.query)
+        console.log(this.props.match.params.cat)
+        this.setState({ search: this.props.match.params.query})
+        this.setState({ searchBY: this.props.match.params.cat})
     }
 
     // renderList = () => {
@@ -45,12 +72,26 @@ class SearchResults extends React.Component {
     //         })
     //     )
     // }
-    render () {
+    render() {
+const {search, searchBy} = this.state
+
         return (
-            <>  
+            <>
                 <div className='row justify-content-center'>
-                   In Search 
+                    <h4>Search by {searchBy}</h4>
                 </div>
+                <Container>
+        <Row>
+          <Col><h2>Search results for {search}</h2></Col>
+        </Row>
+        <Row>
+          <Col>.col</Col>
+          <Col>.col</Col>
+          <Col>.col</Col>
+          <Col>.col</Col>
+          <Col>.col</Col>
+        </Row>
+      </Container>
             </>
         )
     }

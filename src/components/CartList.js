@@ -33,7 +33,7 @@ const CartList = (props) => {
         <ul className="list-group">
             {items.map((item, index) => {
                 return <li className=" media list-group-item d-flex justify-content-between align-items-center" key={index}>
-                <img src={item.image}class="mr-3" alt="..."></img>
+                <img src={item.image}className="mr-3" alt="..."></img>
                         <div className="media-body">
                         <h5>{item.name}</h5>
                         <h5>{item.price}</h5>
