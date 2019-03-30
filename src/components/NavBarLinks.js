@@ -1,31 +1,42 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../styles/NavBarLinks.css'
+import NavsContext from '../contexts/Navs';
 
-const NavBarLinks = (props) => {
-    console.log(props)
-    const page = props.page.page;
-    console.log(page)
+const NavBarLinks = () => {
     const links = ['Home', 'Login', 'Register'];
 
+    return <NavsContext.Consumer>
 
-    return <>
-        {links.map((link, index) => {
-            let active = 'nav-item nav-link';
-            let hover = 'gradientText';
-            let to = `/${link}`;
-            if (link === 'Home'){
-                to = `/`;
-            }
-            if (page === link) {
-                active = 'nav-item nav-link active';
-                hover = '';
-            }
-            return<a className={active} value={link} href={to} key={index}><div className={hover} onClick= {e => { props.onClick({event:e, page:link})}}>{link}</div></a>
-                      
-        })}
-    </>
+        {value =>
 
+            links.map((link, index) => {
+                let active = 'nav-item nav-link';
+                let hover = 'gradientText';
+                let to = `/${link}`;
+                let linkName = link
+                if (link === 'Home') {
+                    to = `/`;
+                }
+                if (value === link) {
+                    active = 'nav-item nav-link active';
+                    hover = '';
+                }
+                if (link === 'Login' || link === 'Register') {
+                    linkName = `Seller ${link}`
+                }
+                if (value === 'Login' && value === link){
+                    linkName = ''
+
+                }
+                if (value === 'Register' && value === link){
+                    linkName = ''
+
+                }
+                return <Link className={active} value={link} to={to} key={index}><div className={hover}>{linkName}</div></Link>
+            })
+        }
+    </NavsContext.Consumer>
 }
 
 export { NavBarLinks }

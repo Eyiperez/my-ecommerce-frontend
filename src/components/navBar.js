@@ -14,32 +14,58 @@ class NavBar extends React.Component {
             query: '',
             cart: [],
             searchCat: 'name',
-            page: 'Register'
+            page: '',
+            location: this.props.location.pathname
+        }
+    }
+    componentDidMount = () => {
+        const currentPage = this.props.location.pathname;
+        if (currentPage === '/Login') {
+            this.setState({ page: 'Login' })
+        }
+        if (currentPage === '/') {
+            this.setState({ page: 'Home' })
+        }
+        if (currentPage === '/Register') {
+            this.setState({ page: 'Register' })
+        }
+        if (currentPage !== '/Register' && currentPage !== '/' && currentPage !== '/Login') {
+            this.setState({ page: '' })
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) {
+            const currentPage = this.props.location.pathname;
+            if (currentPage === '/Login') {
+                this.setState({ page: 'Login' })
+                console.log(this.state.page)
+            }
+            if (currentPage === '/') {
+                this.setState({ page: 'Home' })
+            }
+            if (currentPage === '/Register') {
+                this.setState({ page: 'Register' })
+            }
+            if (currentPage !== '/Register' && currentPage !== '/' && currentPage !== '/Login') {
+                this.setState({ page: '' })
+            }
         }
     }
 
 
-    // activePage = (e) => {
-    //     this.setState({ page: e.page })
-    // }
-
     render() {
         return (
-            <NavsContext.Consumer>
-            {
-                (value)  => {
-                    
-                    return <nav className="my-nav navbar navbar-expand-lg navbar-light">
+            <NavsContext.Provider value={this.state.page}>
+                <nav className="my-nav navbar navbar-expand-lg navbar-light">
                     <form className="navbar-nav">
                         <Link className="navbar-brand" to="/">Navbar</Link>
-                        <NavBarLinks page={value} onClick={this.activePage}></NavBarLinks>
+                        <NavBarLinks></NavBarLinks>
                     </form>
                     <SearchBar />
                     <CartModal></CartModal>
                 </nav>
-                
-                }
-            }
+
                 {/* <nav className="my-nav navbar navbar-expand-lg navbar-light">
                     <form className="navbar-nav">
                         <Link className="navbar-brand" to="/">Navbar</Link>
@@ -48,8 +74,9 @@ class NavBar extends React.Component {
                     <SearchBar />
                     <CartModal></CartModal>
                 </nav> */}
-            
-            </NavsContext.Consumer>
+
+            </NavsContext.Provider>
+
         )
     }
 

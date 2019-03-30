@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import NavsContext from '../contexts/Navs';
+
 
 
 class Login extends React.Component {
@@ -11,28 +11,16 @@ class Login extends React.Component {
         }
     }
 
-    componentDidMount = () => {
-        console.log(this.props.location.pathname)
-        this.setState({ page: 'Login' })
-        // const currentPage = this.props.location.pathname
-        // if (currentPage === '/Login') {
-        //     this.setState = ({ page: 'Login' })
-        // }
-        // if (currentPage === '/') {
-        //     this.setState = ({ page: 'Home' })
-        // }
-        // if (currentPage === '/Register') {
-        //     this.setState = ({ page: 'Register' })
-        // }
+    // componentDidMount = () => {
+    //     console.log(this.props.location.pathname)
+    //    
+    // }
 
-    }
     render() {
         return (
-            <NavsContext.Provider value={this.state.page}>
-                <div>
-                    <h1>IN LOGIN!</h1>
-                </div>
-            </NavsContext.Provider>
+            <div>
+                <h1>IN LOGIN!</h1>
+            </div>
 
         )
     }

@@ -18,7 +18,7 @@ class SearchResults extends React.Component {
                 "color": "yellow",
                 "likes": null,
                 "shop_name": "Balloon Shop"
-            },{
+            }, {
                 "id": 1,
                 "shop_id": 1,
                 "name": "Big balloon",
@@ -30,8 +30,9 @@ class SearchResults extends React.Component {
                 "likes": null,
                 "shop_name": "Balloon Shop"
             }],
-            search:'',
-            searchBY:''
+            search: '',
+            searchBy: '',
+            location: this.props.location.pathname
         }
     }
 
@@ -50,30 +51,21 @@ class SearchResults extends React.Component {
     //         }
     //     )
     // }
-    componentDidMount = () => {
-        console.log(this.props.match.params.query)
-        console.log(this.props.match.params.cat)
-        this.setState({ search: this.props.match.params.query})
-        this.setState({ searchBy: this.props.match.params.cat})
+    componentDidMount() {
+        this.setState({ search: this.props.match.params.query })
+        this.setState({ searchBy: this.props.match.params.cat })
     }
 
-    componentWillMount(props) {
-        // this.requestSearch(props.match.params.query)
-        console.log(this.props.match.params.query)
-        console.log(this.props.match.params.cat)
-        this.setState({ search: this.props.match.params.query})
-        this.setState({ searchBY: this.props.match.params.cat})
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) {
+            this.setState({ search: this.props.match.params.query })
+            this.setState({ searchBy: this.props.match.params.cat })
+        }
     }
 
-    // renderList = () => {
-    //     return ( 
-    //         this.state.videoData.map((e,i)=>{
-    //             return <VideoCardSearch key={i} video={e}/>
-    //         })
-    //     )
-    // }
+
     render() {
-const {search, searchBy} = this.state
+        const { search, searchBy } = this.state
 
         return (
             <>
@@ -81,17 +73,17 @@ const {search, searchBy} = this.state
                     <h4>Search by {searchBy}</h4>
                 </div>
                 <Container>
-        <Row>
-          <Col><h2>Search results for {search}</h2></Col>
-        </Row>
-        <Row>
-          <Col>.col</Col>
-          <Col>.col</Col>
-          <Col>.col</Col>
-          <Col>.col</Col>
-          <Col>.col</Col>
-        </Row>
-      </Container>
+                    <Row>
+                        <Col><h2>Search results for {search}</h2></Col>
+                    </Row>
+                    <Row>
+                        <Col>.col</Col>
+                        <Col>.col</Col>
+                        <Col>.col</Col>
+                        <Col>.col</Col>
+                        <Col>.col</Col>
+                    </Row>
+                </Container>
             </>
         )
     }
