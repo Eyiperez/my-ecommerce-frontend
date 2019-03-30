@@ -1,6 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
+import { ProductsList } from '../components/ProductsList';
+import ProductsListContext from '../contexts/ProductsList';
 //import axios from 'axios'
 
 class SearchResults extends React.Component {
@@ -12,7 +14,7 @@ class SearchResults extends React.Component {
                 "shop_id": 1,
                 "name": "Small balloon",
                 "price": 1,
-                "image": "https://source.unsplash.com/random/80x80",
+                "image": "https://source.unsplash.com/random/200x200",
                 "description": "yellow, air",
                 "category": "birthday",
                 "color": "yellow",
@@ -23,7 +25,51 @@ class SearchResults extends React.Component {
                 "shop_id": 1,
                 "name": "Big balloon",
                 "price": 3,
-                "image": "https://source.unsplash.com/random/80x80",
+                "image": "https://source.unsplash.com/random/200x200",
+                "description": "giant balloon, pink, helium",
+                "category": "babyshower",
+                "color": "pink",
+                "likes": null,
+                "shop_name": "Balloon Shop"
+            }, {
+                "id": 2,
+                "shop_id": 1,
+                "name": "Small balloon",
+                "price": 1,
+                "image": "https://source.unsplash.com/random/200x200",
+                "description": "yellow, air",
+                "category": "birthday",
+                "color": "yellow",
+                "likes": null,
+                "shop_name": "Balloon Shop"
+            }, {
+                "id": 1,
+                "shop_id": 1,
+                "name": "Big balloon",
+                "price": 3,
+                "image": "https://source.unsplash.com/random/200x200",
+                "description": "giant balloon, pink, helium",
+                "category": "babyshower",
+                "color": "pink",
+                "likes": null,
+                "shop_name": "Balloon Shop"
+            },{
+                "id": 2,
+                "shop_id": 1,
+                "name": "Small balloon",
+                "price": 1,
+                "image": "https://source.unsplash.com/random/200x200",
+                "description": "yellow, air",
+                "category": "birthday",
+                "color": "yellow",
+                "likes": null,
+                "shop_name": "Balloon Shop"
+            }, {
+                "id": 1,
+                "shop_id": 1,
+                "name": "Big balloon",
+                "price": 3,
+                "image": "https://source.unsplash.com/random/200x200",
                 "description": "giant balloon, pink, helium",
                 "category": "babyshower",
                 "color": "pink",
@@ -58,33 +104,31 @@ class SearchResults extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.location !== prevProps.location) {
-            this.setState({ search: this.props.match.params.query })
-            this.setState({ searchBy: this.props.match.params.cat })
+            this.setState({ search: this.props.match.params.query,searchBy: this.props.match.params.cat, alertOn: false })
         }
     }
 
+    renderSearchList = () => {
+
+    }
 
     render() {
         const { search, searchBy } = this.state
 
         return (
-            <>
-                <div className='row justify-content-center'>
-                    <h4>Search by {searchBy}</h4>
+            <ProductsListContext.Provider value={this.state.products}>
+                <div className='row justify-content-center' style={{marginTop: '40px'}}>
+                    <h4>Searched by {searchBy}</h4>
                 </div>
                 <Container>
-                    <Row>
+                    <Row style={{marginTop: '40px'}}>
                         <Col><h2>Search results for {search}</h2></Col>
                     </Row>
                     <Row>
-                        <Col>.col</Col>
-                        <Col>.col</Col>
-                        <Col>.col</Col>
-                        <Col>.col</Col>
-                        <Col>.col</Col>
+                        <ProductsList></ProductsList>
                     </Row>
                 </Container>
-            </>
+            </ProductsListContext.Provider>
         )
     }
 }

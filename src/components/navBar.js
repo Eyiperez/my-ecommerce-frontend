@@ -7,6 +7,7 @@ import SearchBar from './SearchBar';
 import NavsContext from '../contexts/Navs';
 
 
+
 class NavBar extends React.Component {
     constructor(props) {
         super(props)
@@ -15,8 +16,9 @@ class NavBar extends React.Component {
             cart: [],
             searchCat: 'name',
             page: '',
-            location: this.props.location.pathname
+            location: this.props.location.pathname,
         }
+
     }
     componentDidMount = () => {
         const currentPage = this.props.location.pathname;
@@ -55,9 +57,10 @@ class NavBar extends React.Component {
 
 
     render() {
+
         return (
             <NavsContext.Provider value={this.state.page}>
-                <nav className="my-nav navbar navbar-expand-lg navbar-light">
+                <nav className="body my-nav navbar navbar-expand-lg navbar-light">
                     <form className="navbar-nav">
                         <Link className="navbar-brand" to="/">Navbar</Link>
                         <NavBarLinks></NavBarLinks>

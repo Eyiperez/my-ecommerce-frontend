@@ -7,7 +7,8 @@ import {
     Input,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem
+    DropdownItem,
+    Alert
 } from 'reactstrap';
 
 class SearchBar extends React.Component {
@@ -19,9 +20,11 @@ class SearchBar extends React.Component {
         this.state = {
             dropdownOpen: false,
             splitButtonOpen: false,
-            query: ''
+            query: '',
+            alertOn: false,
+            error: ''
         };
-        
+        this.onDismiss = this.onDismiss.bind(this);
     }
 
     toggleDropDown() {
@@ -39,12 +42,18 @@ class SearchBar extends React.Component {
 
     handleSearch = (e) => {
         e.preventDefault();
-        console.log(e.target.value)
-        this.props.history.push(`/SearchResults/${this.state.query}/${e.target.value}`);
+        if (this.state.query === '') {
+            this.setState({
+                alertOn: true,
+                error: 'Please enter a valid search'
+            })
+        } else {
+            this.props.history.push(`/SearchResults/${this.state.query}/${e.target.value}`);
         this.setState({
-            query: ''
+            query: '',
+            alertOn: false,
         })
-       
+        }
 
     }
 
@@ -56,29 +65,41 @@ class SearchBar extends React.Component {
     }
 
 
+    onDismiss() {
+        this.setState({ alertOn: false });
+    }
+
+
     render() {
-        const { query } = this.state
+        const { query, error, alertOn } = this.state
         return (
-            <Container style={{ width: '800px' }}>
-                <InputGroup >
-                    <Input  value={query} placeholder="Search" onChange={this.setQuery}/>
-                    <InputGroupButtonDropdown addonType="append" isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
-                        <DropdownToggle caret color='white'>
-                           Search by   
+            <>
+                <Container style={{ width: '800px' }}>
+                    <InputGroup >
+                        <Input value={query} placeholder="Search" onChange={this.setQuery} />
+                        <InputGroupButtonDropdown addonType="append" isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
+                            <DropdownToggle caret color='white'>
+                                Search by
             </DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem header>Search by</DropdownItem>
-                        <DropdownItem onClick={this.handleSearch} value='name'>Name</DropdownItem>
-                            <DropdownItem divider />
-                            <DropdownItem onClick={this.handleSearch} value='color'>Color</DropdownItem>
-                            <DropdownItem divider />
-                            <DropdownItem onClick={this.handleSearch} value='description'>Description</DropdownItem>
-                            <DropdownItem divider />
-                            <DropdownItem onClick={this.handleSearch} value='Category'>Category</DropdownItem>
-                        </DropdownMenu>
-                    </InputGroupButtonDropdown>
-                </InputGroup>
-            </Container>
+                            <DropdownMenu>
+                                <DropdownItem header>Search by</DropdownItem>
+                                <DropdownItem onClick={this.handleSearch} value='name'>Name</DropdownItem>
+                                <DropdownItem divider />
+                                <DropdownItem onClick={this.handleSearch} value='color'>Color</DropdownItem>
+                                <DropdownItem divider />
+                                <DropdownItem onClick={this.handleSearch} value='description'>Description</DropdownItem>
+                                <DropdownItem divider />
+                                <DropdownItem onClick={this.handleSearch} value='event type'>Event</DropdownItem>
+                            </DropdownMenu>
+                        </InputGroupButtonDropdown>
+                    </InputGroup>
+                    <Container style={{width: '70%'}}>
+                    <Alert color="info" isOpen={alertOn} toggle={this.onDismiss}>
+                        {error}
+                    </Alert>
+                </Container>
+                </Container>
+            </>
         );
     }
 }
