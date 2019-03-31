@@ -7,6 +7,7 @@ import { Card, CardImg, CardText, CardBody,
 
 const ProductCard = (props) => {
     const product = props.product
+    const index = props.index
 
     return <>
     <div style={{margin:'13px'}}>
@@ -16,7 +17,8 @@ const ProductCard = (props) => {
           <CardTitle>{product.name}</CardTitle>
           <CardSubtitle>Price ${product.price}</CardSubtitle>
           <CardText>{product.description}</CardText>
-          <Button>See Details</Button>
+          <Button style={{marginRight:'5px'}} onClick={e => {props.addToCart(index)}}>Add to Cart</Button>
+          <Button style={{}}>See details</Button>
         </CardBody>
       </Card>
     </div>

@@ -1,17 +1,16 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
 import ProductsListContext from '../contexts/ProductsList';
 import { ProductCard } from './ProductCard';
 
 
-const ProductsList = () => {
+
+const ProductsList = (props) => {
 
     return <ProductsListContext.Consumer>
-
         {value =>
 
             value.map((product, index) => {
-                return <ProductCard key={index} product={product}></ProductCard>
+                return <ProductCard key={index} product={product} addToCart={props.addToCart} index={index}></ProductCard>
             })
         }
     </ProductsListContext.Consumer>
