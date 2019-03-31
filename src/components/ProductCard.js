@@ -1,7 +1,8 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
 import { Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button } from 'reactstrap';
+    CardTitle, CardSubtitle, Button, Row } from 'reactstrap';
+
+import ViewDetailsModal from './ViewDetails';
   
 
 
@@ -17,8 +18,10 @@ const ProductCard = (props) => {
           <CardTitle>{product.name}</CardTitle>
           <CardSubtitle>Price ${product.price}</CardSubtitle>
           <CardText>{product.description}</CardText>
+          <Row>
           <Button style={{marginRight:'5px'}} onClick={e => {props.addToCart(index)}}>Add to Cart</Button>
-          <Button style={{}}>See details</Button>
+          <ViewDetailsModal productInfo={props.product}></ViewDetailsModal>
+          </Row>
         </CardBody>
       </Card>
     </div>
