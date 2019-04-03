@@ -12,7 +12,7 @@ class SearchResults extends React.Component {
         super(props)
         this.state = {
             products: [{
-                "id": 2,
+                "id": 1,
                 "shop_id": 1,
                 "name": "Small balloon",
                 "price": 1,
@@ -23,7 +23,7 @@ class SearchResults extends React.Component {
                 "likes": null,
                 "shop_name": "Balloon Shop"
             }, {
-                "id": 1,
+                "id": 2,
                 "shop_id": 1,
                 "name": "Big balloon",
                 "price": 3,
@@ -34,7 +34,7 @@ class SearchResults extends React.Component {
                 "likes": null,
                 "shop_name": "Balloon Shop"
             }, {
-                "id": 2,
+                "id": 3,
                 "shop_id": 1,
                 "name": "Small balloon",
                 "price": 1,
@@ -45,7 +45,7 @@ class SearchResults extends React.Component {
                 "likes": null,
                 "shop_name": "Balloon Shop"
             }, {
-                "id": 1,
+                "id": 4,
                 "shop_id": 1,
                 "name": "Big balloon",
                 "price": 3,
@@ -56,7 +56,7 @@ class SearchResults extends React.Component {
                 "likes": null,
                 "shop_name": "Balloon Shop"
             }, {
-                "id": 2,
+                "id": 5,
                 "shop_id": 1,
                 "name": "Small balloon",
                 "price": 1,
@@ -67,7 +67,7 @@ class SearchResults extends React.Component {
                 "likes": null,
                 "shop_name": "Balloon Shop"
             }, {
-                "id": 1,
+                "id": 6,
                 "shop_id": 1,
                 "name": "Big balloon",
                 "price": 3,

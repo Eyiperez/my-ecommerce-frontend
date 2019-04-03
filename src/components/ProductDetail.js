@@ -2,7 +2,6 @@ import React from 'react';
 import { Media, Container, Row } from 'reactstrap';
 
 const ProductDetail = (props) => {
-    console.log('details', props)
     const product = props.product;
     const description = product.description;
     const price = product.price;
