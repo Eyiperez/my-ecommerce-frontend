@@ -104,7 +104,6 @@ class SearchResults extends React.Component {
     componentDidMount() {
         Storage.getData()
             .then(localdata => {
-                console.log('cartItems in local', localdata)
                 if (localdata !== null) {
                     this.setState({
                         cartItems: localdata,
@@ -159,7 +158,6 @@ class SearchResults extends React.Component {
     addToCart = (index) => {
         Storage.getData()
             .then(localdata => {
-                console.log('cartItems in local', localdata)
                 if (localdata !== null) {
                     const products = this.state.products;
                     const productSelected = [products[index]];

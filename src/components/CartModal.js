@@ -30,59 +30,34 @@ class CartModal extends React.Component {
                     // handle empty string
                     this.setState({ cartItems: [] });
                 }
-            }
-            )
+            })
             .then(() => {
                 if (this.state.cartItems !== []) {
-                    return (this.state.cartItems).reduce((acc, curr) => {
-                        const sum = (acc + curr.price)
-                        return sum
-                    }, 0)
+                    return this.getTotal(this.state.cartItems)
                 } else {
                     return 0
                 }
-
             })
             .then(total => {
                 this.setState({ total: total });
             })
-        // window.addEventListener(
-        //     "beforeunload",
-        //     this.saveStateToData.bind(this)
-        // );
     }
 
-    // componentWillUnmount() {
-    //     window.removeEventListener(
-    //         "beforeunload",
-    //         this.saveStateToData.bind(this)
-    //     );
-    //     // saves if component has a chance to unmount
-    //     this.saveStateToData(this.state.cartItems)
-
-    // }
+    getTotal = (cartItems) => {
+        return (cartItems).reduce((acc, cur) => {
+            const sum = (acc + cur.price)
+            return sum
+        }, 0)
+    }
 
     componentDidUpdate() {
         Storage.getData()
             .then(localdata => {
-                console.log('update', localdata)
                 const cartdata = localdata;
                 if ((localdata !== null) && (localdata.length !== this.state.cartItems.length)) {
-                    const total = (cartdata).reduce((acc, cur) => {
-                        const sum = (acc + cur.price)
-                        return sum
-                    }, 0)
+                    const total = this.getTotal(cartdata)
                     this.setState({ cartItems: cartdata, total: total });
                 }
-            })
-
-    }
-
-    saveStateToData = () => {
-        // save to localStorage
-        Storage.saveData('cartItems', (this.state.cartItems))
-            .then(result => {
-                console.log('cartItems', result)
             })
     }
 
@@ -90,17 +65,12 @@ class CartModal extends React.Component {
         const currentCartItems = this.state.cartItems;
         const newItems = [...currentCartItems]
         newItems.splice(index, 1);
-        console.log('new items', newItems)
         Storage.saveData('cartItems', (newItems))
-            .then((result) => {
+            .then(() => {
                 this.setState({ cartItems: newItems })
-                console.log(result)
             })
             .then(() => {
-                return (this.state.cartItems).reduce((acc, curr) => {
-                    const sum = (acc + curr.price)
-                    return sum
-                }, 0)
+                return this.getTotal(this.state.cartItems)
             })
             .then(total => {
                 this.setState({ total: total });
