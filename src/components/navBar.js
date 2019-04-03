@@ -60,7 +60,7 @@ class NavBar extends React.Component {
 
         return (
             <NavsContext.Provider value={this.state.page}>
-                <nav className="body my-nav navbar navbar-expand-lg navbar-light">
+                <nav className="body sticky-top my-nav navbar navbar-expand-lg navbar-light" style={{backgroundColor: 'white'}}>
                     <form className="navbar-nav">
                         <Link className="navbar-brand" to="/">Navbar</Link>
                         <NavBarLinks></NavBarLinks>

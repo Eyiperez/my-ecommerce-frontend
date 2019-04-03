@@ -10,6 +10,19 @@ const getData = () => {
 
 }
 
+const getRecentlyViewed = () => {
+    return new Promise((resolve, reject) => {
+        const data = JSON.parse(localStorage.getItem('recentlyViewed'))
+        if (data !== null) {
+            resolve(data)
+        } else {
+            resolve(null)
+        }
+    })
+
+}
+
+
 const saveData = (key, value) => {
     return new Promise((resolve, reject) => {
         localStorage.setItem(key, JSON.stringify(value))
@@ -19,4 +32,4 @@ const saveData = (key, value) => {
 }
 
 
-export default { getData, saveData }
+export default { getData, saveData, getRecentlyViewed }

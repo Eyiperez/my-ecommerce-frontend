@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { ProductsList } from '../components/ProductsList';
 import ProductsListContext from '../contexts/ProductsList';
 import Storage from '../services/storage';
+import HorizontalImages from '../components/horizontalImages';
 //import axios from 'axios'
 
 class SearchResults extends React.Component {
@@ -80,7 +81,7 @@ class SearchResults extends React.Component {
             search: '',
             searchBy: '',
             location: this.props.location.pathname,
-            cartItems: []
+            cartItems: [],
         }
     }
 
@@ -118,19 +119,15 @@ class SearchResults extends React.Component {
                         searchBy: this.props.match.params.cat
                     });
                 }
-            },
-                (errorLoad) => {
-                    this.setState({
-                        loading: true,
-                        errorLoad
-                    });
-                }
-            )
-        // window.addEventListener(
-        //     "beforeunload",
-        //     this.saveStateToData.bind(this)
-        // );
+            })
     }
+
+    // window.addEventListener(
+    //     "beforeunload",
+    //     this.saveStateToData.bind(this)
+    // );
+    // }
+
 
     componentWillUnmount() {
         window.removeEventListener(
@@ -160,33 +157,63 @@ class SearchResults extends React.Component {
     }
 
     addToCart = (index) => {
-        const products = this.state.products;
-        const productSelected = [products[index]];
-        const cartItems = this.state.cartItems;
-        const newCartItems = cartItems.concat(productSelected);
-        Storage.saveData('cartItems', (newCartItems))
-            .then(() => {
-                this.setState({ cartItems: newCartItems })
+        Storage.getData()
+            .then(localdata => {
+                console.log('cartItems in local', localdata)
+                if (localdata !== null) {
+                    const products = this.state.products;
+                    const productSelected = [products[index]];
+                    const cartItems = localdata;
+                    const newCartItems = cartItems.concat(productSelected);
+                    this.setState({
+                        cartItems: newCartItems
+                    });
+                    return newCartItems
+                } else {
+                    const products = this.state.products;
+                    const productSelected = [products[index]];
+                    const cartItems = [];
+                    const newCartItems = cartItems.concat(productSelected);
+                    this.setState({
+                        cartItems: newCartItems
+                    });
+                    return newCartItems
+                }
             })
+            .then(newCartItems => {
+                Storage.saveData('cartItems', (newCartItems))
+                    .then(() => {
+                        this.setState({ cartItems: newCartItems })
+                    })
+            })
+
     }
 
     render() {
         const { search, searchBy, products } = this.state
 
         return (
-            <ProductsListContext.Provider value={products}>
-                <div className='row justify-content-center' style={{ marginTop: '40px' }}>
-                    <h4>Searched by {searchBy}</h4>
-                </div>
-                <Container>
-                    <Row style={{ marginTop: '40px' }}>
-                        <Col><h2>Search results for {search}</h2></Col>
-                    </Row>
-                    <Row>
-                        <ProductsList addToCart={this.addToCart}></ProductsList>
-                    </Row>
-                </Container>
-            </ProductsListContext.Provider>
+            <>
+                <ProductsListContext.Provider value={products}>
+                    <div className='row justify-content-center' style={{ marginTop: '40px' }}>
+                        <h4>Searched by {searchBy}</h4>
+                    </div>
+                    <Container style={{ marginTop: '40px', width: '800px', height: '400px' }}>
+                        <div className='row justify-content-center' style={{ marginTop: '40px' }}>
+                            <h2>Get Inspired</h2>
+                        </div>
+                        <HorizontalImages></HorizontalImages>
+                    </Container>
+                    <Container>
+                        <Row style={{ marginTop: '100px' }}>
+                            <Col><h2>Search results for {search}</h2></Col>
+                        </Row>
+                        <Row>
+                            <ProductsList addToCart={this.addToCart} ></ProductsList>
+                        </Row>
+                    </Container>
+                </ProductsListContext.Provider>
+            </>
         )
     }
 }

@@ -24,25 +24,24 @@ class CartModal extends React.Component {
     componentDidMount() {
         Storage.getData()
             .then(localdata => {
-                if (localdata !== null) {
+                if (localdata !== null && localdata.length !== this.state.cartItems.length) {
                     this.setState({ cartItems: localdata });
                 } else {
                     // handle empty string
                     this.setState({ cartItems: [] });
                 }
-            },
-                (errorLoad) => {
-                    this.setState({
-                        loading: true,
-                        errorLoad
-                    });
-                }
+            }
             )
             .then(() => {
-                return (this.state.cartItems).reduce((acc, curr) => {
-                    const sum = (acc + curr.price)
-                    return sum
-                }, 0)
+                if (this.state.cartItems !== []) {
+                    return (this.state.cartItems).reduce((acc, curr) => {
+                        const sum = (acc + curr.price)
+                        return sum
+                    }, 0)
+                } else {
+                    return 0
+                }
+
             })
             .then(total => {
                 this.setState({ total: total });
@@ -66,6 +65,7 @@ class CartModal extends React.Component {
     componentDidUpdate() {
         Storage.getData()
             .then(localdata => {
+                console.log('update', localdata)
                 const cartdata = localdata;
                 if ((localdata !== null) && (localdata.length !== this.state.cartItems.length)) {
                     const total = (cartdata).reduce((acc, cur) => {
@@ -89,12 +89,22 @@ class CartModal extends React.Component {
     deleteItem = (index) => {
         const currentCartItems = this.state.cartItems;
         const newItems = [...currentCartItems]
-         newItems.splice(index,1);
+        newItems.splice(index, 1);
+        console.log('new items', newItems)
         Storage.saveData('cartItems', (newItems))
             .then((result) => {
-                this.setState({ cartItems: newItems})
+                this.setState({ cartItems: newItems })
                 console.log(result)
-            })  
+            })
+            .then(() => {
+                return (this.state.cartItems).reduce((acc, curr) => {
+                    const sum = (acc + curr.price)
+                    return sum
+                }, 0)
+            })
+            .then(total => {
+                this.setState({ total: total });
+            })
     }
 
     render() {
@@ -107,7 +117,7 @@ class CartModal extends React.Component {
                 <ModalHeader toggle={this.toggle}>Your Cart</ModalHeader>
                 <ModalBody>
                     <h4>{title} List</h4>
-                    <CartList cartItems={cartItems} deleteItem={this.deleteItem}/>
+                    <CartList cartItems={cartItems} deleteItem={this.deleteItem} />
                     <div style={{ textAlign: 'right', marginTop: '25px' }}><h4>Your total: ${total}</h4></div>
                 </ModalBody>
                 <ModalFooter>

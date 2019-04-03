@@ -7,10 +7,14 @@
     "bootstrap": "^4.3.1",
     "firebase": "^5.9.1",
     "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.5",
+    "react-alert": "^5.4.0",
+    "react-alert-template-basic": "^1.0.0",
     "react-dom": "^16.8.5",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
+    "react-transition-group": "^2.8.0",
     "reactstrap": "^7.1.0"
   },
   "scripts": {
