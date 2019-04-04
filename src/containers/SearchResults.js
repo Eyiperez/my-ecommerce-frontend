@@ -1,10 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Spinner } from 'reactstrap';
 import { ProductsList } from '../components/ProductsList';
 import ProductsListContext from '../contexts/ProductsList';
+import ShopsListContext from '../contexts/ShopsList';
 import Storage from '../services/storage';
 import HorizontalImages from '../components/horizontalImages';
+import { ShopsList } from '../components/ShopList';
 //import axios from 'axios'
 
 class SearchResults extends React.Component {
@@ -82,6 +84,56 @@ class SearchResults extends React.Component {
             searchBy: '',
             location: this.props.location.pathname,
             cartItems: [],
+            loading: false,
+            errorLoad: null,
+            withShops: true,
+            shops: [
+                {
+                    "id": 1,
+                    "name": "Balloon Shop",
+                    "owner": 1,
+                    "description": "the best prettiest balloons ever",
+                    "seller_name": "Tom",
+                    "seller_email": "tom@email.com",
+                    "seller_photo": "https://source.unsplash.com/random/200x200"
+                },
+                {
+                    "id": 2,
+                    "name": "Favors Shop",
+                    "owner": 2,
+                    "description": "handmade, unique, best party favors",
+                    "seller_name": "Sara",
+                    "seller_email": "sara@email.com",
+                    "seller_photo": "https://source.unsplash.com/random/200x200"
+                },
+                {
+                    "id": 3,
+                    "name": "Decorations Shop",
+                    "owner": 3,
+                    "description": "cheap, cool decorations",
+                    "seller_name": "Luz",
+                    "seller_email": "luz@email.com",
+                    "seller_photo": "https://source.unsplash.com/random/200x200"
+                },
+                {
+                    "id": 4,
+                    "name": "Favors Shop",
+                    "owner": 2,
+                    "description": "handmade, unique, best party favors",
+                    "seller_name": "Sara",
+                    "seller_email": "sara@email.com",
+                    "seller_photo": "https://source.unsplash.com/random/200x200"
+                },
+                {
+                    "id": 5,
+                    "name": "Decorations Shop",
+                    "owner": 3,
+                    "description": "cheap, cool decorations",
+                    "seller_name": "Luz",
+                    "seller_email": "luz@email.com",
+                    "seller_photo": "https://source.unsplash.com/random/200x200"
+                }
+            ]
         }
     }
 
@@ -118,7 +170,14 @@ class SearchResults extends React.Component {
                         searchBy: this.props.match.params.cat
                     });
                 }
-            })
+            },
+                (errorLoad) => {
+                    this.setState({
+                        loading: true,
+                        errorLoad
+                    });
+                }
+            )
     }
 
     // window.addEventListener(
@@ -184,35 +243,54 @@ class SearchResults extends React.Component {
                         this.setState({ cartItems: newCartItems })
                     })
             })
-
     }
 
     render() {
-        const { search, searchBy, products } = this.state
+        const { search, searchBy, products, shops, withShops, errorLoad, loading } = this.state;
+        const yesShops = <Container style={{ marginTop: '40px' }}><Row><Col><h2>Shops</h2></Col></Row><Row><ShopsList></ShopsList></Row></Container>;
+        const noShops = <Container></Container>;
 
-        return (
-            <>
-                <ProductsListContext.Provider value={products}>
-                    <div className='row justify-content-center' style={{ marginTop: '40px' }}>
-                        <h4>Searched by {searchBy}</h4>
-                    </div>
-                    <Container style={{ marginTop: '40px', width: '800px', height: '400px' }}>
+        if (errorLoad) {
+            return <div>Error: {errorLoad.message}</div>;
+        } if (loading) {
+            return <div style={{ marginTop: '100px' }}>
+            <Spinner type="grow" color="primary" />
+            <Spinner type="grow" color="secondary" />
+            <Spinner type="grow" color="success" />
+            <Spinner type="grow" color="danger" />
+            <Spinner type="grow" color="warning" />
+            <Spinner type="grow" color="info" />
+            <Spinner type="grow" color="light" />
+            <Spinner type="grow" color="dark" />
+          </div>;
+        } if (!loading) {
+            return (
+                <>
+                    <ProductsListContext.Provider value={products}>
                         <div className='row justify-content-center' style={{ marginTop: '40px' }}>
-                            <h2>Get Inspired</h2>
+                            <h4>Searched by {searchBy}</h4>
                         </div>
-                        <HorizontalImages></HorizontalImages>
-                    </Container>
-                    <Container>
-                        <Row style={{ marginTop: '100px' }}>
-                            <Col><h2>Search results for {search}</h2></Col>
-                        </Row>
-                        <Row>
-                            <ProductsList addToCart={this.addToCart} ></ProductsList>
-                        </Row>
-                    </Container>
-                </ProductsListContext.Provider>
-            </>
-        )
+                        <Container style={{ marginTop: '40px', width: '800px', height: '400px' }}>
+                            <div className='row justify-content-center' style={{ marginTop: '40px' }}>
+                                <h2>Get Inspired</h2>
+                            </div>
+                            <HorizontalImages></HorizontalImages>
+                        </Container>
+                        <Container>
+                            <Row style={{ marginTop: '100px' }}>
+                                <Col><h2>Search results for {search}</h2></Col>
+                            </Row>
+                            <Row>
+                                <ProductsList addToCart={this.addToCart} ></ProductsList>
+                            </Row>
+                        </Container>
+                    </ProductsListContext.Provider>
+                    <ShopsListContext.Provider value={shops}>
+                        {withShops === true ? yesShops : noShops}
+                    </ShopsListContext.Provider>
+                </>
+            )
+        }
     }
 }
 

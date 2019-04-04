@@ -4,6 +4,7 @@ import NavBar from './components/navBar';
 import Home from './containers/Home';
 import Login from './containers/Login';
 import SearchResults from './containers/SearchResults';
+import ShopProfile from './containers/ShopProfile';
 
 
 
@@ -26,6 +27,7 @@ class App extends Component {
           <Route path='/' exact component={Home} />
           <Route path='/Login' exact component={Login} />
           <Route path='/SearchResults/:query/:cat' exact component={SearchResults} />
+          <Route path='/ShopProfile/:name/:id' exact component={ShopProfile} />
         </BrowserRouter>
       </div>
     );
