@@ -5,6 +5,7 @@ import Home from './containers/Home';
 import Login from './containers/Login';
 import SearchResults from './containers/SearchResults';
 import ShopProfile from './containers/ShopProfile';
+import Footer from './components/Footer';
 
 
 
@@ -28,6 +29,7 @@ class App extends Component {
           <Route path='/Login' exact component={Login} />
           <Route path='/SearchResults/:query/:cat' exact component={SearchResults} />
           <Route path='/ShopProfile/:name/:id' exact component={ShopProfile} />
+          <Footer/>
         </BrowserRouter>
       </div>
     );
