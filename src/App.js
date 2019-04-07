@@ -10,6 +10,7 @@ import Register from './containers/Register';
 import SearchResults from './containers/SearchResults';
 import ShopProfile from './containers/ShopProfile';
 import Footer from './components/Footer';
+import LogOut from './containers/LogOut';
 
 //***contexts */
 import AuthContext from './contexts/auth';
@@ -57,6 +58,7 @@ componentWillUnmount() {
           <Route path='/' exact component={Home} />
           <Route path='/Login' exact component={Login} />
           <Route path='/Signup' exact component={Register} />
+          <Route path='/LogOut' exact component={LogOut} />
           <Route path='/SearchResults/:query/:cat' exact component={SearchResults} />
           <Route path='/ShopProfile/:name/:id' exact component={ShopProfile} />
           <Footer/>
