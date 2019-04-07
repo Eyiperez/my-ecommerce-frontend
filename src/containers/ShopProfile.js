@@ -1,21 +1,13 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container, Spinner, Row, Col } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import ShopHeading from '../components/ShopHeading';
 import { ProductsList } from '../components/ProductsList';
 import ProductsListContext from '../contexts/ProductsList';
 import ShopNav from '../components/ShopNav';
 import Storage from '../services/storage';
+import axios from 'axios';
 
-const shop = {
-    "id": 5,
-    "name": "Decorations Shop",
-    "owner": 3,
-    "description": "cheap, cool decorations",
-    "seller_name": "Luz",
-    "seller_email": "luz@email.com",
-    "seller_photo": "https://source.unsplash.com/random/200x200"
-}
 
 class Home extends React.Component {
     constructor(props) {
@@ -95,19 +87,21 @@ class Home extends React.Component {
                 "shop_name": "Balloon Shop"
             }],
             id: null,
+            sellerID: null,
         }
     }
     componentDidMount = () => {
-        console.log(this.props.match.params.name)
-        console.log(this.props.match.params.id)
-
-        this.setState({
-            name: shop.name,
-            image: shop.seller_photo,
-            description: shop.description,
-            sellerEmail: shop.seller_email,
-            sellerName: shop.seller_name,
-            id: shop.id
+        axios.get(`http://localhost:3084/shop/${this.props.match.params.id}`)
+        .then((shop) =>{
+            this.setState({
+                name: this.props.match.params.name,
+                image: shop.data.seller_photo,
+                description: shop.data.description,
+                sellerEmail: shop.data.seller_email,
+                sellerName: shop.data.seller_name,
+                id: this.props.match.params.id,
+                sellerID: shop.data.seller_id
+            })
         })
     }
 
@@ -145,7 +139,7 @@ class Home extends React.Component {
 
     render() {
 
-        const { name, description, image, sellerName, sellerEmail, id, products } = this.state;
+        const { name, description, image, sellerName, sellerEmail, id, products, sellerID } = this.state;
 
         return (
             <>
@@ -157,7 +151,7 @@ class Home extends React.Component {
                         <Row className="clearfix" style={{ margin: '30px' }}>
                             <Col>
                                 <div className='row justify-content-center'>
-                                    <ShopHeading image={image} description={description} sellerName={sellerName}></ShopHeading>
+                                    <ShopHeading image={image} description={description} sellerName={sellerName} sellerID={sellerID}></ShopHeading>
                                 </div>
                             </Col>
                             <Col>
@@ -165,15 +159,16 @@ class Home extends React.Component {
                                     <div>
                                         <p >Email me: {sellerEmail}</p>
                                         <p >Shop ID: {id}</p>
+                                        <p >Seller ID: {sellerID}</p>
                                     </div>
                                 </div>
                             </Col>
                         </Row>
                     </Container>
                     <Container>
-                    <ShopNav></ShopNav>
+                    <ShopNav sellerID={sellerID}></ShopNav>
                     </Container>
-                    <Container style={{ marginTop: '110px' }}>
+                    <Container style={{ marginTop: '50px' }}>
                         <Row>
                             <ProductsList addToCart={this.addToCart}></ProductsList>
                         </Row>

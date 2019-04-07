@@ -5,6 +5,7 @@ import '../styles/NavBarLinks.css';
 import CartModal from './CartModal';
 import SearchBar from './SearchBar';
 import NavsContext from '../contexts/Navs';
+//import AuthContext from './contexts/auth';
 
 
 
@@ -28,10 +29,13 @@ class NavBar extends React.Component {
         if (currentPage === '/') {
             this.setState({ page: 'Home' })
         }
-        if (currentPage === '/Register') {
-            this.setState({ page: 'Register' })
+        if (currentPage === '/Signup') {
+            this.setState({ page: 'Signup' })
         }
-        if (currentPage !== '/Register' && currentPage !== '/' && currentPage !== '/Login') {
+        if (currentPage === '/LogOut') {
+            this.setState({ page: 'LogOut' })
+        }
+        if (currentPage !== '/Signup' && currentPage !== '/' && currentPage !== '/Login' && currentPage !== '/LogOut') {
             this.setState({ page: '' })
         }
     }
@@ -41,15 +45,17 @@ class NavBar extends React.Component {
             const currentPage = this.props.location.pathname;
             if (currentPage === '/Login') {
                 this.setState({ page: 'Login' })
-                console.log(this.state.page)
             }
             if (currentPage === '/') {
                 this.setState({ page: 'Home' })
             }
-            if (currentPage === '/Register') {
-                this.setState({ page: 'Register' })
+            if (currentPage === '/Signup') {
+                this.setState({ page: 'Signup' })
             }
-            if (currentPage !== '/Register' && currentPage !== '/' && currentPage !== '/Login') {
+            if (currentPage === '/LogOut') {
+                this.setState({ page: 'LogOut' })
+            }
+            if (currentPage !== '/Signup' && currentPage !== '/' && currentPage !== '/Login' && currentPage !== '/LogOut') {
                 this.setState({ page: '' })
             }
         }
