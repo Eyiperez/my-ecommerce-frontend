@@ -7,79 +7,15 @@ import ShopsListContext from '../contexts/ShopsList';
 import Storage from '../services/storage';
 import HorizontalImages from '../components/horizontalImages';
 import { ShopsList } from '../components/ShopList';
+import Requests from '../services/Requests';
 //import axios from 'axios'
 
 class SearchResults extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            products: [{
-                "id": 1,
-                "shop_id": 1,
-                "name": "Small balloon",
-                "price": 1,
-                "image": "https://source.unsplash.com/random/200x200",
-                "description": "yellow, air",
-                "category": "birthday",
-                "color": "yellow",
-                "likes": null,
-                "shop_name": "Balloon Shop"
-            }, {
-                "id": 2,
-                "shop_id": 1,
-                "name": "Big balloon",
-                "price": 3,
-                "image": "https://source.unsplash.com/random/200x200",
-                "description": "giant balloon, pink, helium",
-                "category": "babyshower",
-                "color": "pink",
-                "likes": null,
-                "shop_name": "Balloon Shop"
-            }, {
-                "id": 3,
-                "shop_id": 1,
-                "name": "Small balloon",
-                "price": 1,
-                "image": "https://source.unsplash.com/random/200x200",
-                "description": "yellow, air",
-                "category": "birthday",
-                "color": "yellow",
-                "likes": null,
-                "shop_name": "Balloon Shop"
-            }, {
-                "id": 4,
-                "shop_id": 1,
-                "name": "Big balloon",
-                "price": 3,
-                "image": "https://source.unsplash.com/random/200x200",
-                "description": "giant balloon, pink, helium",
-                "category": "babyshower",
-                "color": "pink",
-                "likes": null,
-                "shop_name": "Balloon Shop"
-            }, {
-                "id": 5,
-                "shop_id": 1,
-                "name": "Small balloon",
-                "price": 1,
-                "image": "https://source.unsplash.com/random/200x200",
-                "description": "yellow, air",
-                "category": "birthday",
-                "color": "yellow",
-                "likes": null,
-                "shop_name": "Balloon Shop"
-            }, {
-                "id": 6,
-                "shop_id": 1,
-                "name": "Big balloon",
-                "price": 3,
-                "image": "https://source.unsplash.com/random/200x200",
-                "description": "giant balloon, pink, helium",
-                "category": "babyshower",
-                "color": "pink",
-                "likes": null,
-                "shop_name": "Balloon Shop"
-            }],
+            products: [],
+            withProducts: true,
             search: '',
             searchBy: '',
             location: this.props.location.pathname,
@@ -87,122 +23,133 @@ class SearchResults extends React.Component {
             loading: false,
             errorLoad: null,
             withShops: true,
-            shops: [
-                {
-                    "id": 1,
-                    "name": "Balloon Shop",
-                    "owner": 1,
-                    "description": "the best prettiest balloons ever",
-                    "seller_name": "Tom",
-                    "seller_email": "tom@email.com",
-                    "seller_photo": "https://source.unsplash.com/random/200x200"
-                },
-                {
-                    "id": 2,
-                    "name": "Favors Shop",
-                    "owner": 2,
-                    "description": "handmade, unique, best party favors",
-                    "seller_name": "Sara",
-                    "seller_email": "sara@email.com",
-                    "seller_photo": "https://source.unsplash.com/random/200x200"
-                },
-                {
-                    "id": 3,
-                    "name": "Decorations Shop",
-                    "owner": 3,
-                    "description": "cheap, cool decorations",
-                    "seller_name": "Luz",
-                    "seller_email": "luz@email.com",
-                    "seller_photo": "https://source.unsplash.com/random/200x200"
-                },
-                {
-                    "id": 4,
-                    "name": "Favors Shop",
-                    "owner": 2,
-                    "description": "handmade, unique, best party favors",
-                    "seller_name": "Sara",
-                    "seller_email": "sara@email.com",
-                    "seller_photo": "https://source.unsplash.com/random/200x200"
-                },
-                {
-                    "id": 5,
-                    "name": "Decorations Shop",
-                    "owner": 3,
-                    "description": "cheap, cool decorations",
-                    "seller_name": "Luz",
-                    "seller_email": "luz@email.com",
-                    "seller_photo": "https://source.unsplash.com/random/200x200"
-                }
-            ]
+            shops: []
         }
     }
 
-    // requestSearch = (query) => {
-    //     axios.get('https://www.googleapis.com/youtube/v3/search?'+
-    //     'part=snippet'+
-    //     '&maxResults=25'+
-    //     `&q=${query}`+
-    //     '&key=AIzaSyDz8Y-kxmUsaG8dRq0dvYqEq6UXE-jUFy4').then(
-    //         (res)=>{
-    //             console.log(res.data)
-    //             this.setState({
-    //                 videoData:res.data.items,
-    //                 loadVideo:true
-    //             })  
-    //         }
-    //     )
-    // }
-
     componentDidMount() {
+        const search = this.props.match.params.query;
+        const searchBy = this.props.match.params.cat;
+        console.log(searchBy)
         Storage.getData()
             .then(localdata => {
                 if (localdata !== null) {
                     this.setState({
                         cartItems: localdata,
-                        search: this.props.match.params.query,
-                        searchBy: this.props.match.params.cat
+                        search: search,
+                        searchBy: searchBy
                     });
                 } else {
                     // handle empty string
                     this.setState({
                         cartItems: [],
-                        search: this.props.match.params.query,
-                        searchBy: this.props.match.params.cat
+                        search: search,
+                        searchBy: searchBy
                     });
+                }
+            })
+            .then(() => {
+                if (searchBy === 'name') {
+                    return Promise.all([Requests.productsByName(search), Requests.shopsByName(search)])
+                }
+                if (searchBy === 'color') {
+                    return Promise.all([Requests.productsByColor(search), Requests.shopsByName(search)])
+                }
+                if (searchBy === 'description') {
+                    return Promise.all([Requests.productsByDescription(search), Requests.shopsByName(search)])
+                }
+                if (searchBy === 'event type') {
+
+                    return Promise.all([Requests.productsByCategory(search), Requests.shopsByName(search)])
                 }
             },
-                (errorLoad) => {
-                    this.setState({
-                        loading: true,
-                        errorLoad
-                    });
+            (errorLoad) => {
+                this.setState({
+                    loading: true,
+                    errorLoad
+                });
+            })
+            .then((values) => {
+                console.log(values)
+                const products = values[0].data;
+                const shops = values[1].data;
+
+                if (products.length === 0) {
+                    this.setState({ withProducts: false, shops: shops })
+                } else {
+                    this.setState({ products: products, shops: shops })
                 }
-            )
+            })
     }
-
-    // window.addEventListener(
-    //     "beforeunload",
-    //     this.saveStateToData.bind(this)
-    // );
-    // }
-
 
     componentWillUnmount() {
         window.removeEventListener(
             "beforeunload",
             this.saveStateToData.bind(this)
         );
-        // saves if component has a chance to unmount
-        //this.saveStateToData(this.state.cartItems)
     }
 
     componentDidUpdate(prevProps) {
+        const search = this.props.match.params.query;
+        const searchBy = this.props.match.params.cat;
         if (this.props.location !== prevProps.location) {
-            this.setState({
-                search: this.props.match.params.query,
-                searchBy: this.props.match.params.cat,
-                alertOn: false
-            })
+            if (searchBy === 'name') {
+                return Promise.all([Requests.productsByName(search), Requests.shopsByName(search)])
+                    .then((values) => {
+                        console.log(values)
+                        const products = values[0].data;
+                        const shops = values[1].data;
+
+                        if (products.length === 0) {
+                            this.setState({ withProducts: false, shops: shops, search: search, searchBy: searchBy, alertOn: false })
+                        } else {
+                            this.setState({ products: products, shops: shops, search: search, searchBy: searchBy, alertOn: false })
+                        }
+                    })
+            }
+            if (searchBy === 'color') {
+                return Promise.all([Requests.productsByColor(search), Requests.shopsByName(search)])
+                    .then((values) => {
+                        console.log(values)
+                        const products = values[0].data;
+                        const shops = values[1].data;
+
+                        if (products.length === 0) {
+                            this.setState({ withProducts: false, shops: shops, search: search, searchBy: searchBy, alertOn: false })
+                        } else {
+                            this.setState({ products: products, shops: shops, search: search, searchBy: searchBy, alertOn: false })
+                        }
+                    })
+            }
+            if (searchBy === 'description') {
+                return Promise.all([Requests.productsByDescription(search), Requests.shopsByName(search)])
+                    .then((values) => {
+                        console.log(values)
+                        const products = values[0].data;
+                        const shops = values[1].data;
+
+                        if (products.length === 0) {
+                            this.setState({ withProducts: false, shops: shops, search: search, searchBy: searchBy, alertOn: false })
+                        } else {
+                            this.setState({ products: products, shops: shops, search: search, searchBy: searchBy, alertOn: false })
+                        }
+                    })
+            }
+            if (searchBy === 'event type') {
+                return Promise.all([Requests.productsByCategory(search), Requests.shopsByName(search)])
+                    .then((values) => {
+                        console.log(values)
+                        const products = values[0].data;
+                        const shops = values[1].data;
+
+                        if (products.length === 0) {
+                            this.setState({ withProducts: false, shops: shops, search: search, searchBy: searchBy, alertOn: false })
+                        } else {
+                            this.setState({ products: products, shops: shops, search: search, searchBy: searchBy, alertOn: false })
+                        }
+                    })
+            }
+
         }
     }
 
@@ -254,15 +201,8 @@ class SearchResults extends React.Component {
             return <div>Error: {errorLoad.message}</div>;
         } if (loading) {
             return <div style={{ marginTop: '100px' }}>
-            <Spinner type="grow" color="primary" />
-            <Spinner type="grow" color="secondary" />
-            <Spinner type="grow" color="success" />
-            <Spinner type="grow" color="danger" />
-            <Spinner type="grow" color="warning" />
-            <Spinner type="grow" color="info" />
-            <Spinner type="grow" color="light" />
-            <Spinner type="grow" color="dark" />
-          </div>;
+                <Spinner type="grow" color="secondary" />
+            </div>;
         } if (!loading) {
             return (
                 <>

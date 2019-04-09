@@ -88,6 +88,10 @@ class Register extends React.Component {
 
     }
 
+    goToLogin= () =>{
+        this.props.history.push(`/Login`)       
+}
+
 
     render() {
         const { email, password, name, shopName, description, error } = this.state;
@@ -138,7 +142,8 @@ class Register extends React.Component {
                                 <Input type="textarea" name="shopDescription" id="exampleText" value={description} onChange={this.handleChange} />
                             </Col>
                         </FormGroup>
-                        <Button onClick={this.handleSubmit}>Sign in</Button>
+                        <Button onClick={this.handleSubmit} style={{backgroundColor:'#f9498e', borderColor:'#f9498e', color:'white'}}>Sign Up</Button>
+                        <Button onClick={this.goToLogin} style={{backgroundColor:'white', borderColor:'#f9498e', marginLeft:'20px', color:'black'}}>Already a seller</Button>
                     </Form>
                 </Container>
             </Container>

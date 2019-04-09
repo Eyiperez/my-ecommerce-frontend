@@ -15,13 +15,14 @@ const ProductCard = (props) => {
     const index = props.index
 
     return <>
-    <div style={{marginRight:'50px', marginTop:'15px', marginLeft:'10px'}}>
-      <Card>
+    <div style={{marginRight:'30px', marginTop:'15px', marginLeft:'10px'}}>
+      <Card style={{width:'240px', height:'400px'}}>
         <CardImg top width="100%" src={product.image} alt="Card image cap" />
         <CardBody>
           <CardTitle>{product.name}</CardTitle>
           <CardSubtitle>Price ${product.price}</CardSubtitle>
           <CardText>{product.description}</CardText>
+          <CardText>Color: {product.color}</CardText>
           <Row>
           <Button style={{marginRight:'5px'}} onClick={e => {props.addToCart(index); alert.show(<div style={{ color: 'white' }}>Item {product.name} added to cart</div>)}} >Add to Cart</Button>
           <ViewDetailsModal productInfo={props.product}></ViewDetailsModal>
