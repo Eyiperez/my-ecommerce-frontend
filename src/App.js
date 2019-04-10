@@ -11,6 +11,9 @@ import SearchResults from './containers/SearchResults';
 import ShopProfile from './containers/ShopProfile';
 import Footer from './components/Footer';
 import LogOut from './containers/LogOut';
+import Checkout from './containers/Checkout';
+import CompleteOrder from './containers/CompleteOrder';
+import ShopOrders from './containers/ShopOrders';
 
 //***contexts */
 import AuthContext from './contexts/auth';
@@ -61,6 +64,9 @@ componentWillUnmount() {
           <Route path='/LogOut' exact component={LogOut} />
           <Route path='/SearchResults/:query/:cat' exact component={SearchResults} />
           <Route path='/ShopProfile/:name/:id' exact component={ShopProfile} />
+          <Route path='/Checkout' exact component={Checkout} />
+          <Route path='/CompleteOrder/:id' exact component={CompleteOrder} />
+          <Route path='/ShopOrders/:id' exact component={ShopOrders} />
           <Footer/>
           </AuthContext.Provider>
         </BrowserRouter>

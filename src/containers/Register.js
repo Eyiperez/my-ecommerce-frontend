@@ -32,7 +32,6 @@ class Register extends React.Component {
         const { email, password } = this.state;
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((response) => {
-                console.log('Returns: ', response.user.uid);
                 const newSeller = {
                     name: this.state.name,
                     email: this.state.email,
@@ -45,8 +44,6 @@ class Register extends React.Component {
                 return axios.post('http://localhost:3084/seller/', newSeller)
             })
             .then((res) => {
-                console.log(res.data.success)
-                console.log(res.data.id)
                 const newShop = {
                     name: this.state.shopName,
                     owner: res.data.id,
@@ -58,8 +55,6 @@ class Register extends React.Component {
                 return axios.post('http://localhost:3084/shop/', newShop)
             })
             .then((res) => {
-                console.log(res.data.success)
-                console.log(res.data.id)
                 this.props.history.push(`/ShopProfile/${this.state.shopName}/${res.data.id}`)
             })
             .catch(err => {

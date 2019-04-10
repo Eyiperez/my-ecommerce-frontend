@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { CartList } from './CartList';
 import Storage from '../services/storage';
+import { Link } from 'react-router-dom';
 
 
 class CartModal extends React.Component {
@@ -77,6 +78,7 @@ class CartModal extends React.Component {
             })
     }
 
+
     render() {
         const { total, cartItems, modal } = this.state;
         const title = 'Items';
@@ -91,8 +93,8 @@ class CartModal extends React.Component {
                     <div style={{ textAlign: 'right', marginTop: '25px' }}><h4>Your total: ${total}</h4></div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="pink" onClick={this.toggle}>Checkout</Button>{' '}
-                    <Button color="white" onClick={this.toggle}>Cancel</Button>
+                    <Link to='/Checkout'><Button onClick={this.toggle} color="pnik" ><h3>Checkout</h3></Button></Link>{' '}
+                    <Button  color="white" onClick={this.toggle}>Close</Button>
                 </ModalFooter>
             </Modal>
         </div>

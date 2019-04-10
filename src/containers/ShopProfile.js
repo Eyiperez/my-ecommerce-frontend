@@ -110,7 +110,7 @@ class Home extends React.Component {
                 </Row>
             </Container>
             <Container>
-                <ShopNav sellerID={sellerID}></ShopNav>
+                <ShopNav shopID={id} sellerID={sellerID}></ShopNav>
             </Container>
             <Container style={{ marginTop: '50px' }}>
                 <Row>

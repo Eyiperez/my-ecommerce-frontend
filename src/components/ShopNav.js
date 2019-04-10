@@ -5,6 +5,9 @@ import AuthContext from '../contexts/auth';
 
 const ShopNav = (props) => {
 
+  const shopID = props.shopID
+  const shopOrders = `/ShopOrders/${shopID}`
+
   return (
     <AuthContext.Consumer>
       {
@@ -17,10 +20,10 @@ const ShopNav = (props) => {
                     <h2>Seller Services</h2>
                     <Nav>
                       <NavItem>
-                        <NavLink href="/components/">Edit Products</NavLink>
+                        <NavLink href="/components/">Add Products</NavLink>
                       </NavItem>
                       <NavItem>
-                        <NavLink href="/components/">Orders</NavLink>
+                        <NavLink href={shopOrders}>Orders</NavLink>
                       </NavItem>
                     </Nav>
                   </div>
