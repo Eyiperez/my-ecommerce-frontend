@@ -66,7 +66,7 @@ componentWillUnmount() {
           <Route path='/ShopProfile/:name/:id' exact component={ShopProfile} />
           <Route path='/Checkout' exact component={Checkout} />
           <Route path='/CompleteOrder/:id' exact component={CompleteOrder} />
-          <Route path='/ShopOrders/:id' exact component={ShopOrders} />
+          <Route path='/ShopOrders/:name/:id' exact component={ShopOrders} />
           <Footer/>
           </AuthContext.Provider>
         </BrowserRouter>

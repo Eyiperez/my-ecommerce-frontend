@@ -49,6 +49,10 @@ class Home extends React.Component {
                     })
                 }
             })
+            .catch(err => {
+                const { message } = err;
+                this.setState({ error: message });
+            })
     }
 
     addToCart = (index) => {
@@ -110,7 +114,7 @@ class Home extends React.Component {
                 </Row>
             </Container>
             <Container>
-                <ShopNav shopID={id} sellerID={sellerID}></ShopNav>
+                <ShopNav shopID={id} sellerID={sellerID} shopName={name}></ShopNav>
             </Container>
             <Container style={{ marginTop: '50px' }}>
                 <Row>
@@ -142,7 +146,7 @@ class Home extends React.Component {
                 </Row>
             </Container>
             <Container>
-                <ShopNav sellerID={sellerID}></ShopNav>
+                <ShopNav shopID={id} sellerID={sellerID} shopName={name}></ShopNav>
             </Container>
             <Container style={{ marginTop: '50px' }}>
                 <Row>

@@ -5,8 +5,9 @@ import AuthContext from '../contexts/auth';
 
 const ShopNav = (props) => {
 
-  const shopID = props.shopID
-  const shopOrders = `/ShopOrders/${shopID}`
+  const shopID = props.shopID;
+  const shopName = props.shopName;
+  const shopOrders = `/ShopOrders/${shopName}/${shopID}`;
 
   return (
     <AuthContext.Consumer>
