@@ -8,6 +8,7 @@ const ShopNav = (props) => {
   const shopID = props.shopID;
   const shopName = props.shopName;
   const shopOrders = `/ShopOrders/${shopName}/${shopID}`;
+  const addProduct = `/AddProduct/${shopName}/${shopID}`;
 
   return (
     <AuthContext.Consumer>
@@ -21,7 +22,7 @@ const ShopNav = (props) => {
                     <h2>Seller Services</h2>
                     <Nav>
                       <NavItem>
-                        <NavLink href="/components/">Add Products</NavLink>
+                        <NavLink href={addProduct}>Add Products</NavLink>
                       </NavItem>
                       <NavItem>
                         <NavLink href={shopOrders}>Orders</NavLink>

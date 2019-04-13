@@ -14,6 +14,7 @@ import LogOut from './containers/LogOut';
 import Checkout from './containers/Checkout';
 import CompleteOrder from './containers/CompleteOrder';
 import ShopOrders from './containers/ShopOrders';
+import AddProduct from './containers/AddProduct';
 
 //***contexts */
 import AuthContext from './contexts/auth';
@@ -67,6 +68,7 @@ componentWillUnmount() {
           <Route path='/Checkout' exact component={Checkout} />
           <Route path='/CompleteOrder/:id' exact component={CompleteOrder} />
           <Route path='/ShopOrders/:name/:id' exact component={ShopOrders} />
+          <Route path='/AddProduct/:name/:id' exact component={AddProduct} />
           <Footer/>
           </AuthContext.Provider>
         </BrowserRouter>
